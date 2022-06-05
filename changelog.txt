@@ -1,0 +1,17 @@
+SHIFTER_OLD : ancien code pour la arduino micro avec toutes les fonctionnalitées annexes (écran + led + thermistances)
+
+SHIFTER : clone de shifter V0 (à vérifier)
+
+shifter V0 : passage de vitesse et gestion du compresseur avec millis()
+
+shifter V1 : V0 + lecture du rapport engagé analogique
+
+shifter V2 :
+	- passage de vitesse
+	- gestion du compresseur avec interruption et timer
+	- lecture du rapport engagé analogique
+	- lecture des RPM par rapport cyclique
+
+shifter V3 :
+	Remplace la fonction delay() par une fonction wait()
+	qui ne bloque pas les ISR	
