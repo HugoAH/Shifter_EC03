@@ -89,7 +89,7 @@ void DOWNSHIFT(){
 }
 
 byte read_gear(){
-    const float U_ref_gear[6] = {1, 1, 1, 1, 1, 1};
+    const float U_ref_gear[6] = {1, 1, 1, 1, 1, 1};   // Tension de seuil à paramétrer
     
     float U = analogRead(gear_sensor)*5/1023.0;
 
@@ -116,7 +116,7 @@ byte read_gear(){
     }
 }
 
-void wait(int waiting_time_ms){   // Fonction delais autorisant les interruptions
+void wait(unsigned long waiting_time_ms){   // Fonction delais non bloquante
   unsigned long start_time = millis();                // millis() overflow au bout de 50 jours
   while (millis() - start_time < waiting_time_ms){
     __asm__ __volatile__ ("nop\n\t");                 // Instruction assembleur NOP : ne rien faire

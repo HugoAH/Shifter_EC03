@@ -6,5 +6,5 @@ void NEUTRE(byte *gear);
 void UPSHIFT(void);
 void DOWNSHIFT(void);
 byte read_gear(void);
-void wait(int waiting_time_ms);
+void wait(unsigned long waiting_time_ms);
 #endif

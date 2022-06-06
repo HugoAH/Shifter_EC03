@@ -103,6 +103,6 @@ void setup(){
 }
 
 void loop() {
-    byte gear = read_gear();                                 // on rafraichi le mode du shifter (Normal ou Neutre)
-    shift(&gear, &p_up, &p_down, RPM);                       // on passe le rapport
+    byte gear = read_gear();                                 // on lit le rapport engagé
+    shift(&gear, &p_up, &p_down, RPM);                       // on change le rapport de boite
 }
