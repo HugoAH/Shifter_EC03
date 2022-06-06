@@ -57,7 +57,7 @@ void NEUTRE(byte *gear){
             nb_try += 1;                // On incrémente le nb d'essaie pour augmenter la durée d'activation des électrovannes à l'essaie suivant si le rapport n'est pas passé
         }
         else{
-            nb_try= 0;                  // Si on est passé en 2nd on réinitialise le compteur
+            nb_try= 0;                  // Si on a sauté le point mort, on réinitialise le compteur
         }
 
         wait(100);                     
@@ -81,9 +81,9 @@ void DOWNSHIFT(){
     digitalWrite(shift_cut,LOW);  //on envoie l'info à l'ECU qu'on shift pour qu'il coupe l'allumage pendant un temps régler dans l'ECU
     digitalWrite(shift_cut,HIGH);
 
-    digitalWrite(EV_down,HIGH);  //on envoie 5V sur la commande pneumatique pour monter le rapport (on ferme le transistor)
-    wait(T_down);               //pendant T_down milliseconde
-    digitalWrite(EV_down,LOW); //on stop le circuit pneumatique
+    digitalWrite(EV_down,HIGH);   //on envoie 5V sur la commande pneumatique pour monter le rapport (on ferme le transistor)
+    wait(T_down);                 //pendant T_down milliseconde
+    digitalWrite(EV_down,LOW);    //on stop le circuit pneumatique
     
     wait(T_rearmage);           // On attend T_rearmage ms
 }
@@ -119,6 +119,6 @@ byte read_gear(){
 void wait(int waiting_time_ms){   // Fonction delais autorisant les interruptions
   unsigned long start_time = millis();                // millis() overflow au bout de 50 jours
   while (millis() - start_time < waiting_time_ms){
-    __asm__ __volatile__ ("nop\n\t");                 // Instruction assembleur NOP : ne rien faire pendant 1 cycle d'horloge
+    __asm__ __volatile__ ("nop\n\t");                 // Instruction assembleur NOP : ne rien faire
   }
 }

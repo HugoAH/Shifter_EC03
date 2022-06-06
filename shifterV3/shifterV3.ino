@@ -29,7 +29,7 @@ ISR(PCINT1_vect){             // Fonction appelé dès qu'une interruption PCINT
   }
 }
 
-ISR(TIMER2_OVF_vect){                 // Fonction appelé dès débordement du timer2
+ISR(TIMER2_OVF_vect){                 // Fonction appelé dès débordement du timer2 (débordement toutes les 16.384ms)
     volatile static byte overflow_counter = 0;
     
     overflow_counter ++;
