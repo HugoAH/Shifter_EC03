@@ -4,8 +4,8 @@
 #include "Shifter.h"
 
 void shift (byte *gear, volatile bool *p_up, volatile bool *p_down, int RPM){
-    if (*p_down == true and RPM < RPM_downshift_max){   //si on veut passer la vitesse inférieur      i
-      if (*gear == 1){  // si on est en 1ere, il faut faire tourner le selecteur dans le sens inverse (on tourne dans le sens de la montée de rapport)
+    if (*p_down == true and RPM < RPM_downshift_max){   //si on veut passer la vitesse inférieur
+      if (*gear <= 1){  // si on est en 1ere, il faut faire tourner le selecteur dans le sens inverse (on tourne dans le sens de la montée de rapport)
         NEUTRE(gear);
       }
       else{
@@ -13,7 +13,7 @@ void shift (byte *gear, volatile bool *p_up, volatile bool *p_down, int RPM){
       }
     }
     
-    else if (*p_up == true & *gear < Gear_max){   //si on veut passer la vitesse supérieure      
+    else if (*p_up == true and *gear < Gear_max){   //si on veut passer la vitesse supérieure      
       if (*gear == 0){  // si on est au neutre, il faut faire tourner le selecteur dans le sens inverse (on tourne dans le sens de la descente de rapport)
         DOWNSHIFT();
       }
@@ -22,11 +22,19 @@ void shift (byte *gear, volatile bool *p_up, volatile bool *p_down, int RPM){
       }
     }
 
-    if (*p_down || *p_up){
+    if (*p_down or *p_up){
       *p_down = false;
       *p_up = false;
+      wait(T_rearmage);           // On attend T_rearmage ms
+      
+      EIFR = (0b11<<0);           // Reset les flags d'interruption pour éviter faux trigger
+      // Pour reset EIFR il faut écrire 1, pas mettre la valeur du bit à 1 !
+      
+      EIMSK |= (0b11<<0);         // Réactivation des interruptions palettes  
+      /* Equivalent to : 
       bitSet(EIMSK, INT0);
       bitSet(EIMSK, INT1);
+      */
     }
 
 }
@@ -72,8 +80,6 @@ void UPSHIFT(){
     digitalWrite(EV_up,HIGH);   //on envoie 5V sur la commande pneumatique pour monter le rapport (on ferme le transistor)
     wait(T_up);                 // On attend T_up milliseconde
     digitalWrite(EV_up,LOW);    //on stop le circuit pneumatique
-
-    wait(T_rearmage);           // On attend T_rearmage ms
 }
 
 ////
@@ -84,8 +90,6 @@ void DOWNSHIFT(){
     digitalWrite(EV_down,HIGH);   //on envoie 5V sur la commande pneumatique pour monter le rapport (on ferme le transistor)
     wait(T_down);                 //pendant T_down milliseconde
     digitalWrite(EV_down,LOW);    //on stop le circuit pneumatique
-    
-    wait(T_rearmage);           // On attend T_rearmage ms
 }
 
 byte read_gear(){
