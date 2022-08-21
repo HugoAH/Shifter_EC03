@@ -14,4 +14,7 @@ shifter V2 :
 
 shifter V3 :
 	Remplace la fonction delay() par une fonction wait()
-	qui ne bloque pas les ISR	
+	qui ne bloque pas les ISR
+
+shifter V4 :
+	Ajout des leds

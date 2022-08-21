@@ -1,11 +1,11 @@
 #include "Arduino.h"
-#include "Globales.h"
-#include "Pins.h"
-#include "Shifter.h"
+#include "Globales.hpp"
+#include "Pins.hpp"
+#include "Shifter.hpp"
 
 void shift (byte *gear, volatile bool *p_up, volatile bool *p_down, int RPM){
     if (*p_down == true and RPM < RPM_downshift_max){   //si on veut passer la vitesse inférieur
-      if (*gear <= 1){  // si on est en 1ere, il faut faire tourner le selecteur dans le sens inverse (on tourne dans le sens de la montée de rapport)
+      if (*gear == 1){  // si on est en 1ere, il faut faire tourner le selecteur dans le sens inverse (on tourne dans le sens de la montée de rapport)
         NEUTRE(gear);
       }
       else{
